@@ -58,6 +58,7 @@
     border-top 1px solid #eee
     box-sizing border-box
     display flex
+    background #fff
     .guideItem
       width 25%
       height 100%
