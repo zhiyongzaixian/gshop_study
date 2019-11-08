@@ -3,12 +3,40 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>vue_demo</title>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
+  <script type="text/javascript">
+    function remRefresh() {
+      // 1. 获取屏幕的宽度
+      let clientWidth = document.documentElement.clientWidth
+      // 2. 设置rem字体大小: 将屏幕宽度等分/ 10 || 16, 降低单位rem值的大小，便于后期换算，提高精确度
+      let rem = clientWidth / 10;
+      // 3. 设置rem字体大小
+      document.documentElement.style.fontSize = rem + 'px'
+      // 4. 设置body的字体大小
+      document.body.style.fontSize = '12px'
+    }
+
+
+    window.addEventListener('pageshow', () => {
+      remRefresh()
+    })
+
+    let timeoutId;
+    window.addEventListener('resize', () => {
+      timeoutId && clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        console.log('resize');
+        remRefresh()
+      }, 2000)
+    })
+
+  </script>
   </body>
 </html>
