@@ -15,6 +15,6 @@
     margin 0
     padding 0
   p
-    width 10rem
+    width 375px
     background red
 </style>
