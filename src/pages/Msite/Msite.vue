@@ -324,7 +324,21 @@
 </template>
 
 <script>
-  export default {}
+  import {mapState} from 'vuex'
+  export default {
+    async mounted(){
+      // let result = await getAddress(40.10038,116.36867)
+      // console.log(result);
+      this.$store.dispatch('getAddressAction')
+    },
+    computed: {
+      // ...mapState(['address'])
+      ...mapState({
+        address: state => state.address
+      })
+
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
