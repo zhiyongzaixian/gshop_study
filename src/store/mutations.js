@@ -1,5 +1,6 @@
 import {
-  SAVE_ADDRESS
+  SAVE_ADDRESS,
+  SAVE_CATEGORYS
 } from './mutation-type'
 
 
@@ -7,5 +8,8 @@ import {
 export default {
   [SAVE_ADDRESS](state, {address}){
     state.address = address
+  },
+  [SAVE_CATEGORYS](state, {categorys}){
+    state.categorys = categorys
   }
 }

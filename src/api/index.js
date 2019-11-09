@@ -9,3 +9,10 @@ import ajax from './ajax'
 export const getAddress = (latitude, longitude) => ajax({
   url: `/position/${latitude},${longitude}`
 })
+
+
+/*  获取食品分类列表 */
+
+export const getCategorys = () => ajax({
+  url: '/index_category'
+})

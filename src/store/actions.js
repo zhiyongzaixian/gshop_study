@@ -1,7 +1,11 @@
 import {
-  getAddress
+  getAddress,
+  getCategorys
 } from '../api'
-import {SAVE_ADDRESS} from "./mutation-type";
+import {
+  SAVE_ADDRESS,
+  SAVE_CATEGORYS
+} from "./mutation-type";
 
 
 
@@ -12,6 +16,12 @@ export default {
     if(result.code === 0){
       // 2. 调用mutation，将数据交给mutation
       commit(SAVE_ADDRESS, {address: result.data})
+    }
+  },
+  async getCategorysAction({commit}){
+    let result = await getCategorys()
+    if(result.code === 0){
+      commit(SAVE_CATEGORYS, {categorys: result.data})
     }
   }
 }

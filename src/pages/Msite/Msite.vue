@@ -1,18 +1,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <!--<header class="header">-->
-      <!--<span class="header_search">-->
-        <!--<i class="iconfont icon-sousuo"></i>-->
-      <!--</span>-->
-      <!--<span class="header_title">-->
-        <!--<span class="header_title_text ellipsis">昌平区北七家宏福科技园(337省道北)</span>-->
-      <!--</span>-->
-      <!--<span class="header_login">-->
-        <!--<span class="header_login_text">登录|注册</span>-->
-      <!--</span>-->
-    <!--</header>-->
-    <GshopHeader title="昌平区北七家宏福科技园(337省道北)" >
+    <GshopHeader :title="address.name?address.name:'定位中...'" >
       <template v-slot:right>
         <span  class="header_login">
           <span class="header_login_text">登录|注册</span>
@@ -22,112 +11,19 @@
         <i class="iconfont icon-sousuo"></i>
       </span>
     </GshopHeader>
-
-
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
+          <div class="swiper-slide" v-for="(category, index) in newCateGorys" :key="index">
+            <a href="javascript:" class="link_to_food" v-for="(categoryItem, index) in category" :key="index">
               <div class="food_container">
-                <img src="../../common/images/nav/1.jpg">
+                <img :src="`https://fuss10.elemecdn.com${categoryItem.image_url}`">
               </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/2.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/3.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/4.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/5.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/6.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/7.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/8.jpg">
-              </div>
-              <span>土豪推荐</span>
+              <span>{{categoryItem.title}}</span>
             </a>
           </div>
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/9.jpg">
-              </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/10.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/11.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/12.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/13.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/14.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/1.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="../../common/images/nav/2.jpg">
-              </div>
-              <span>土豪推荐</span>
-            </a>
-          </div>
+
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
@@ -324,18 +220,56 @@
 </template>
 
 <script>
+  import Swiper from 'swiper'
+  import 'swiper/css/swiper.min.css'
   import {mapState} from 'vuex'
+  import _ from 'lodash'
   export default {
     async mounted(){
       // let result = await getAddress(40.10038,116.36867)
       // console.log(result);
       this.$store.dispatch('getAddressAction')
+      this.$store.dispatch('getCategorysAction')
+
+      // console.log(Array(10));
+      // let a = 1;
+      // console.log(a += 2);
+      // console.log();
+      // // 位移运算符
+      // console.log(3 >>> 1); //
+      // console.log(true >>> 0); //
+      new Swiper('.swiper-container', {
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+      })
+    },
+    methods: {
+      _chunk(target, size){
+        if(!Array.isArray(target) || size <=0 || !!!target.length){
+          return target
+        }
+        let arr = [...target]
+        let result = []
+        while (arr.length > size){
+          result.push(arr.splice(0, size))
+        }
+        result.push(arr)
+        return result
+      }
     },
     computed: {
       // ...mapState(['address'])
+
       ...mapState({
-        address: state => state.address
-      })
+        address: state => state.address,
+        categorys: state => state.categorys
+      }),
+      newCateGorys(){
+        return _.chunk(this.categorys, 8) // lodash
+        // return this._chunk(this.categorys, 8) 自己封装额
+      }
 
     }
   }
