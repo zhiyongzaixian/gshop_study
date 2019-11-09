@@ -1,5 +1,6 @@
 <template>
   <section class="order">
+    <!--<GshopHeader :title="123"/>-->
     <GshopHeader title="订单"/>
     <section class="order_no_login">
       <img src="../../common/images/order/person.png">

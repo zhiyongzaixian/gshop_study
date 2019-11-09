@@ -2,7 +2,7 @@
   <div>
 
     <router-view></router-view>
-    <FooterGuide />
+    <FooterGuide v-if="$route.meta.isShowFooterGuide"/>
   </div>
 </template>
 <script>

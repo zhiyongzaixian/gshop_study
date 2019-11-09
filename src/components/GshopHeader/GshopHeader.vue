@@ -5,17 +5,16 @@
       <span class="header_title_text ellipsis">{{title}}</span>
     </a>
     <slot name="right"></slot>
-
-
-    <slot></slot>
-
   </header>
 </template>
 
 <script>
   export default {
     props: {
-      title: String
+      title: {
+        required:true,
+        type: String
+      }
     }
   }
 </script>
