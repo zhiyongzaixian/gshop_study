@@ -75,7 +75,7 @@ module.exports = {
   1. 概念区分：
       	1. rem: 根节点字体的大小
          	2. em: 相对于父节点字体的大小
-            	3. px: css像素单位
+                 	3. px: css像素单位
   2. 核心思想:
       	1. 根据不同的屏幕大小动态的设置rem的字体大小
          	2. 页面需要适配的内容大小根据rem来设置
@@ -169,13 +169,65 @@ module.exports = {
            </span>
          ```
 
-         
+
+## 6. Vuex
+
+1. 作用
+   1. 集中管理状态数据
+   2. 用于给多个组件进行数据共享
+2. 核心概念
+   1. store对象: 管理state及参与修改state的多个方法
+   2. state: 保存状态数据
+   3. mutation: 
+      1. 本质是函数
+      2. 用于直接修改state的数据
+      3. 只能处理同步类型的数据
+      4. 要修改异步数据需要action
+   4. action
+      1. 修改异步数据
+      2. 获取异步数据之后调用mutation(commit)并且将数据交给mutation
+   5. getters
+      1. store对象的计算属性
+   6. dispatch
+      1. 用于分发action
 
 
 
+## 7. swiper
 
+ 1. 基本语法
 
+    ```
+    1. npm install swiper
+    2. 使用:
+    	new Swiper('.swiper-container')
+    ```
 
+	2. 注意点
+
+    	1. new Swiper的时机
+    	2. 如果new Swiper的动作发生在列表数据请求回来之前出现滑块无法滑动，导航没有
+
+	3. 解决方案
+
+    	1. 核心思想： 保证new Swiper的时机在数据达到并且渲染之后
+
+    	2. 解决方案一： watch ---> 目标数据
+
+        ```
+        this.$nextTick(() => { //$nextTick代表下次页面全部渲染完毕
+            new Swiper('.swiper-container', {
+                loop: true,
+                pagination: {
+                el: '.swiper-pagination',
+                },
+            })
+        })
+        ```
+
+    	3. 解决方案二: 使用dispatch传递callback就---> commit之后调用
+
+        
 
 
 

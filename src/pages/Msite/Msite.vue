@@ -111,7 +111,7 @@
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/mixins.styl"
   .msite  //首页
     width 100%
@@ -151,7 +151,7 @@
                 text-align center
                 font-size 13px
                 color #666
-        .swiper-pagination
+        /deep/.swiper-pagination
           >span.swiper-pagination-bullet-active
             background #02a774
 
