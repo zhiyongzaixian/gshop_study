@@ -12,13 +12,19 @@
         <form>
           <div :class="{on: !isPassWordLogin}">
             <section class="login_message">
-              <input name="phone" v-validate="'required|phone'" type="tel" maxlength="11" placeholder="手机号">
+              <input v-model="phone" name="phone" v-validate="'required|phone'" type="tel" maxlength="11" placeholder="手机号">
               <span style="color: red;" v-show="errors.has('phone')">{{errors.first('phone')}}</span>
 
-              <button disabled="disabled" class="get_verification" >获取验证码</button>
+              <!--<button disabled="disabled" class="get_verification" :class="{right_phone_number: isRightPhoneNumber}">获取验证码</button>-->
+              <button
+                  @click.prevent="sendCode"
+                  :disabled="!isRightPhoneNumber || !!countDown"
+                  class="get_verification"
+                  :class="isRightPhoneNumber?'right_phone_number':''"
+              >{{countDown?`${countDown}s后可以再次获取`:'获取验证码'}}</button>
             </section>
             <section class="login_verification">
-              <input v-validate="'required|code'" name="code" type="tel" maxlength="8" placeholder="验证码">
+              <input v-model="code" v-validate="'required|code'" name="code" type="tel" maxlength="8" placeholder="验证码">
               <span style="color: red;" v-show="errors.has('code')">{{errors.first('code')}}</span>
 
             </section>
@@ -30,7 +36,7 @@
           <div :class="{on: isPassWordLogin}">
             <section>
               <section class="login_message">
-                <input name="username" v-validate="'required'" type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input v-model="name" name="username" v-validate="'required'" type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
                 <span style="color: red;" v-show="errors.has('username')">{{errors.first('username')}}</span>
               </section>
               <section class="login_verification">
@@ -40,6 +46,7 @@
                     maxlength="8"
                     placeholder="密码"
                     name="pwd"
+                    v-model="pwd"
                 >
                 <span style="color: red;" v-show="errors.has('pwd')">{{errors.first('pwd')}}</span>
 
@@ -49,7 +56,7 @@
                 </div>
               </section>
               <section class="login_message">
-                <input name="captcha" v-validate="'required'" type="text" maxlength="11" placeholder="验证码">
+                <input v-model="captcha" name="captcha" v-validate="'required'" type="text" maxlength="11" placeholder="验证码">
                 <span style="color: red;" v-show="errors.has('captcha')">{{errors.first('captcha')}}</span>
 
                 <img ref="captcha" @click="updateCaptcha" class="get_verification" src="http://localhost:4000/captcha" alt="captcha">
@@ -74,6 +81,12 @@
       return {
         isPassWordLogin: false, // 标识是否是用户名/密码登录
         isShowPassword: false, // 是否显示密码
+        name: '',
+        pwd: '',
+        captcha: '',
+        phone: '',
+        code: '',
+        countDown: 0, // 倒计时
       }
     },
     methods: {
@@ -91,6 +104,21 @@
         }else {
           alert('前端验证失败')
         }
+      },
+      sendCode(){
+        console.log('发送验证码');
+        // 设置倒计时的时长
+        this.countDown = 10
+        this.intervalId = setInterval(() => {
+          this.countDown--
+          this.countDown === 0 && clearInterval(this.intervalId)
+        }, 1000)
+      }
+    },
+    computed: {
+      isRightPhoneNumber(){
+        // 验证手机号是否满足要求
+        return /^1(3|4|5|6|7|8|9)\d{9}$/.test(this.phone)
       }
     }
   }
@@ -157,6 +185,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone_number
+                  color #333
             .login_verification
               position relative
               margin-top 16px
