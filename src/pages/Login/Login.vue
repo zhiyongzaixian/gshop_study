@@ -126,6 +126,8 @@
           // 登录成功的处理
           if(result.code === 0){
             alert('登录成功')
+            // 将获取的用户数据存入vuex的state中
+            this.$store.dispatch('getUserAction', {user: result.data})
             this.$router.replace('/profile')
           }
 
@@ -133,8 +135,14 @@
           alert('前端验证失败')
         }
       },
-      sendCode(){
+      async sendCode(){
         console.log('发送验证码');
+        let result = await this.$API.sendCode(this.phone)
+        if(result.code === 0){
+          alert('短信发送成功')
+        }else {
+          alert('短信发送失败')
+        }
         // 设置倒计时的时长
         this.countDown = 10
         this.intervalId = setInterval(() => {
