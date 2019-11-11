@@ -76,6 +76,7 @@
 </template>
 
 <script>
+  import {loginWithPassword, loginWithPhone} from '../../api'
   export default {
     data(){
       return {
@@ -94,13 +95,40 @@
         this.$refs.captcha.src = 'http://localhost:4000/captcha?time=' + Date.now()
       },
       async login(){
-        let {isPassWordLogin} = this
+        let {isPassWordLogin, name,  pwd, captcha, phone, code} = this
         let names = isPassWordLogin? ['username', 'pwd', 'captcha']: ['phone', 'code']
         const success = await this.$validator.validateAll(names) // 对所有表单项进行验证
         // console.log(success);
         if(success){
           alert('前端验证成功')
           // 收集表单项数据，发送请求进行后端验证
+          // let result = await loginWithPassword(name,  pwd, captcha)
+          // 判断是否是用户名/密码登录
+          let result
+          if(isPassWordLogin){ // 用户名/密码登录
+            result = await this.$API.loginWithPassword(name, pwd, captcha)
+            if(result.code === 1){
+              // 清空图形验证码
+              this.captcha = ''
+              // 更新图形验证码
+              this.updateCaptcha()
+            }
+          }else {// 手机号/验证码登录
+            result = await this.$API.loginWithPhone(phone, code)
+            if(result.code === 1){
+              // 清空验证码
+              this.code = ''
+            }
+
+          }
+
+
+          // 登录成功的处理
+          if(result.code === 0){
+            alert('登录成功')
+            this.$router.replace('/profile')
+          }
+
         }else {
           alert('前端验证失败')
         }

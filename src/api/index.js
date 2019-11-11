@@ -26,3 +26,27 @@ export const getShops = (latitude, longitude) => ajax({
     longitude
   }
 })
+
+
+/* 用户名密码登陆 */
+export const loginWithPassword = (name, pwd, captcha) => ajax({
+  url: '/login_pwd',
+  method: 'POST',
+  data: {
+    name,
+    pwd,
+    captcha
+  }
+})
+
+
+/* 手机号验证码登陆 */
+export const loginWithPhone = (phone, code) => ajax({
+  url: '/login_sms',
+  method: 'POST',
+  data: {
+    phone,
+    code
+  }
+})
+
