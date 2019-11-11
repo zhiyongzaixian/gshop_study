@@ -22,6 +22,8 @@ export default {
     state.user = user
   },
   [SAVE_TOKEN](state, {token}){
+    // 存储到本地localStorage || sessionStorage
+    localStorage.setItem('token_key', token)
     state.token = token
   },
 }

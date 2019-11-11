@@ -8,12 +8,12 @@
           <i class="iconfont icon-person_round_fill"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
-          <p>
+          <p class="user-info-top" v-if="user.name">{{user.name?user.name:'登录/注册'}}</p>
+          <p v-if="user.phone">
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
                 </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">{{user.phone?user.phone:'暂无绑定手机号'}}</span>
           </p>
         </div>
         <span class="arrow">
@@ -93,11 +93,17 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     methods: {
       toLogin(){
         this.$router.replace('/login')
       }
+    },
+    computed: {
+      ...mapState({
+        user: state => state.user
+      })
     }
   }
 </script>
