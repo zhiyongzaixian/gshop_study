@@ -4,6 +4,10 @@ import Order from '../pages/Order/Order'
 import Profile from '../pages/Profile/Profile'
 import Login from '../pages/Login/Login'
 import Shop from '../pages/Shop/Shop'
+import Goods from '../pages/Shop/Goods/Goods'
+import Info from '../pages/Shop/Info/Info'
+import Rating from '../pages/Shop/Rating/Rating'
+
 
 
 
@@ -47,7 +51,25 @@ export default [
   },
   {
     path: '/shop',
-    component: Shop
+    component: Shop,
+    children: [
+      {
+        path: '/shop/goods',
+        component: Goods
+      },
+      {
+        path: 'rating',
+        component: Rating
+      },
+      {
+        path: '/shop/info',
+        component: Info
+      },
+      {
+        path: '/shop',
+        Redirect: '/shop/goods'
+      }
+    ]
   },
   {
     path: '/',
