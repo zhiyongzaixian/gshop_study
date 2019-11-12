@@ -77,6 +77,8 @@
 
 <script>
   import {loginWithPassword, loginWithPhone} from '../../api'
+  import {setInterval} from 'timers'
+  import {Toast} from 'mint-ui'
   export default {
     data(){
       return {
@@ -100,7 +102,7 @@
         const success = await this.$validator.validateAll(names) // 对所有表单项进行验证
         // console.log(success);
         if(success){
-          alert('前端验证成功')
+          Toast('前端验证成功')
           // 收集表单项数据，发送请求进行后端验证
           // let result = await loginWithPassword(name,  pwd, captcha)
           // 判断是否是用户名/密码登录
@@ -125,27 +127,27 @@
 
           // 登录成功的处理
           if(result.code === 0){
-            alert('登录成功')
+            Toast('登录成功')
             // 将获取的用户数据存入vuex的state中
             this.$store.dispatch('getUserAction', {user: result.data})
             this.$router.replace('/profile')
           }
 
         }else {
-          alert('前端验证失败')
+          Toast('前端验证失败')
         }
       },
       async sendCode(){
-        console.log('发送验证码');
+        // console.log('发送验证码');
         let result = await this.$API.sendCode(this.phone)
         if(result.code === 0){
-          alert('短信发送成功')
+          Toast('短信发送成功')
         }else {
-          alert('短信发送失败')
+          Toast('短信发送失败')
         }
         // 设置倒计时的时长
         this.countDown = 10
-        this.intervalId = setInterval(() => {
+        this.intervalId = window.setInterval(() => {
           this.countDown--
           this.countDown === 0 && clearInterval(this.intervalId)
         }, 1000)

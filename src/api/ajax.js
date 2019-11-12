@@ -2,6 +2,7 @@
 import qs from 'qs'
 import axios from 'axios'
 import router from '../router'
+import {MessageBox} from 'mint-ui'
 
 // 生成一个Axios的伪实例, 具备Axios实例对象的所有属性，方法，但是不是真实的Axios实例
 const instance = axios.create({
@@ -41,27 +42,27 @@ instance.interceptors.response.use(
     
     if(!error.response){// 没有发送请求
       //  1. 没有token
-      alert(error.message)
+      MessageBox.alert(error.message)
       router.currentRoute.path !== '/login' && router.replace('/login')
   
     }else {
       // 2. 有token，token过期
       if(error.response.status === 401){
-        alert('token已过期，请重新登录')
+        MessageBox.alert('token已过期，请重新登录')
         router.currentRoute.path !== '/login' && router.replace('/login')
       }else if(error.response.status === 404){
         // 3. 请求404
-        alert('请求资源未找到')
+        MessageBox.alert('请求资源未找到')
       }else {
         // 4. 其他
-        alert('请求失败')
+        MessageBox.alert('请求失败')
       }
     }
-    
-    
-    
-    
-    alert('请求失败')
+  
+  
+  
+  
+    MessageBox.alert('请求失败')
     return new Promise(() => {}) // 手动返回一个状态为pending的promsie实例，保证不会自动进入下一个成功的回调
   }
 )
