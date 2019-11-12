@@ -26,4 +26,6 @@ export default {
     localStorage.setItem('token_key', token)
     state.token = token
   },
+  
+  
 }

@@ -227,13 +227,17 @@ module.exports = {
 
     	3. 解决方案二: 使用dispatch传递callback就---> commit之后调用
 
-    ## 8. token
+    
 
+    ## 8. token
+    
     1. npm install jsonwebtoken
     2. 加密(sign): 加密的内容 + 密钥(字符串) + 有效时间
     3. 解密(decode): token + 密钥(字符串)
-
-
+    
+    ## 9. 登录流程
+    
+    
 
 
 
