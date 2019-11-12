@@ -1,0 +1,45 @@
+{
+  "provinces": [
+    {
+      "name" : "北京市"
+    },
+    {
+      "name" : "山东省",
+      "id": 3
+    }
+  ],
+  "cities": [
+    {
+      "name": "昌平区"
+    },
+    {
+      "name": "朝阳区"
+    },
+    {
+      "name": "济南",
+      "parentId": 3
+    },
+    {
+      "name": "青岛",
+      "parentId": 3,
+      "id": "256"
+    },
+    {
+      "name": "南京"
+    }
+  ],
+  "counties": [
+    {
+      "name": "青岛县1",
+      "parentId": 256
+    },
+    {
+      "name": "青岛县2",
+      "parentId": 256
+
+    },
+    {
+      "name": "宾县象牙山庄"
+    }
+  ]
+}
