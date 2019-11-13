@@ -33,7 +33,9 @@ const mutations = {
     }
   },
   [DEL_FOOD_COUNT](state, {food}){
-    food.count--
+    if(food.count){
+      food.count--
+    }
   }
 }
 
