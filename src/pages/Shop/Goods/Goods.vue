@@ -1,8 +1,8 @@
 <template>
   <div id="goodContainer">
     <div class="leftContainer">
-      <ul class="navList">
-        <li class="navItem" :class="{active: navIndex === index}" v-for="(good, index) in goods" :key="index">
+      <ul ref="leftUl" class="navList">
+        <li @click="changeNavIndex(index)" class="navItem" :class="{active: navIndex === index}" v-for="(good, index) in goods" :key="index">
           <p>{{good.name}}</p>
         </li>
       </ul>
@@ -53,7 +53,6 @@
       // 测试mock接口
       // let result = await this.$API.getShopDatas()
       // console.log(result)
-      console.log('mounted');
       if(this.goods){
         this._initScroll()
         this._initTops()
@@ -64,14 +63,22 @@
         goods: state => state.shop.shopDatas.goods
       }),
       navIndex(){
+        // 在计算属性的内部千万不要获取或者操作计算属性本身，否则就是死循环
         let {tops, scrollY} = this
-        return tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+        let index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+        //if(this.leftScroll && index !== this.navIndex ){
+        if(this.leftScroll && this.index !== index){
+          this.index = index
+          this.leftScroll.scrollToElement(this.$refs.leftUl.children[index], 2000)
+        }
+        return index
       }
     },
     methods: {
       _initScroll(){
-        new BScroll('.leftContainer', {
+        this.leftScroll = new BScroll('.leftContainer', {
           scrollY: true, // 设置纵向滑动
+          click: true, // 允许点击
         })
         this.rightScroll = new BScroll('.rightContainer', {
           scrollY: true, // 设置纵向滑动
@@ -86,7 +93,6 @@
 
         this.rightScroll.on('scrollEnd', ({x, y}) => {
           this.scrollY = Math.abs(y)
-
         })
       },
       _initTops(){
@@ -100,11 +106,16 @@
           tops.push(top)
         }
         this.tops = tops
+      },
+      changeNavIndex(index){
+        console.log('xxx');
+        this.scrollY = this.tops[index]
+        this.rightScroll.scrollTo(0, -this.scrollY, 2000)
+
       }
     },
     watch: {
       goods(newValue, oldValue){
-        console.log(newValue, oldValue);
         this.$nextTick(() => { // 页面下一次全部渲染完毕
           this._initScroll()
           this._initTops()
