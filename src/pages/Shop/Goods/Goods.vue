@@ -1,5 +1,7 @@
 <template>
   <div id="goodContainer">
+    <!--<p>{{num}}</p>-->
+    <!--<p>{{test.num2}}</p>-->
     <div class="leftContainer">
       <ul ref="leftUl" class="navList">
         <li @click="changeNavIndex(index)" class="navItem" :class="{active: navIndex === index}" v-for="(good, index) in goods" :key="index">
@@ -27,7 +29,7 @@
                   <span class="now">￥{{food.price}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  CartControl组件
+                  <CartControl :food="food"/>
                 </div>
               </div>
             </li>
@@ -41,12 +43,17 @@
 
 <script>
   import BScroll from 'better-scroll'
+  import Vue from 'vue'
   import {mapState} from 'vuex'
   export default {
     data(){
       return {
         scrollY: 0, // 记录右侧滑动内容滑动的距离
         tops: [], // 记录右侧所有li到滑动页面顶部的距离
+        num: 1,
+        test: {
+
+        }
       }
     },
     async mounted(){
@@ -57,6 +64,16 @@
         this._initScroll()
         this._initTops()
       }
+      // this.test.num2 = 2
+      // this.$set(this.test, 'num2', 2)
+      // Vue.set(this.test, 'num2', 2)
+      // Vue中禁止个data的根对象在后期直接添加属性
+      // this.$set(this, 'num2', 2)
+      // this.num2 = 2
+      // setTimeout(() => {
+      //   // this.num = 2
+      //   this.test.num2 = 666
+      // }, 2000)
     },
     computed: {
       ...mapState({
@@ -85,6 +102,7 @@
           // probeType: 1, // 非实时
           probeType: 2, // 实时
           // probeType: 3, // 实时/惯性滑动
+          click: true, // 允许点击
         })
 
         this.rightScroll.on('scroll', ({x, y}) => {
