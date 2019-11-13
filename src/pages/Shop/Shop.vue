@@ -19,7 +19,10 @@
 <script>
   import ShopHeader from '../../components/ShopHeader/ShopHeader'
   export default {
-    components: {ShopHeader}
+    components: {ShopHeader},
+    mounted(){
+      this.$store.dispatch('getShopDatasAction')
+    }
   }
 </script>
 

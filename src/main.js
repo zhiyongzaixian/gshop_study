@@ -5,6 +5,7 @@ import './veevalidate'
 import * as API from './api'
 import {Button} from 'mint-ui'
 // import 'mint-ui/lib/style.css'
+import './mock/mockServer'
 
 
 import router from './router'

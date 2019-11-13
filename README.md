@@ -229,17 +229,66 @@ module.exports = {
 
     
 
-    ## 8. token
-    
-    1. npm install jsonwebtoken
-    2. 加密(sign): 加密的内容 + 密钥(字符串) + 有效时间
-    3. 解密(decode): token + 密钥(字符串)
-    
-    ## 9. 登录流程
-    
-    
+## 8. token
 
+1. npm install jsonwebtoken
+2. 加密(sign): 加密的内容 + 密钥(字符串) + 有效时间
+3. 解密(decode): token + 密钥(字符串)
 
+## 9. 登录流程
+
+1. 注册
+   1. 前端验证： 验证用户名及密码等的格式
+   2. 后端验证:    验证用户名是否合法或者已有， ajax请求
+2. 登录
+   1. 前端验证:  验证用户名及密码等的格式
+   2. 后端验证
+      1. 后端返回用户信息： 用户名，token(cookie, session)
+      2. 将token存储到本地，内存(vuex)
+      3. 下一次再请求的时候携带token作为身份标识
+
+## 10. Vuex问题
+
+1. 刷新页面数据丢失
+   1. 原因： 
+      1. Vuex的数据保存运行的内存中
+      2. 刷新页面重新初始化整个应用，重新分配内存空间，重新初始化store对象
+   2. 解决方案一： 
+      1. 重新发送ajax请求获取之前丢失的数据
+
+## 11. localStorage & sessionStorage&cookie& session
+
+### 11.1 cookie
+
+	1. 服务器端生成
+ 	2. 保存在浏览器端
+ 	3. cookie优点: 体积小，可以用于前端后数据交互进行身份验证
+ 	4. cookie缺点: 
+      	1. 不安全
+      	2. 体积小，4kb左右
+      	3. 浏览器有了cookie以后每次发请求携带cookie，占用带框
+      	4. 用户可以通过浏览器设置禁用cookie
+ 	5. cookie分类
+      	1. 持久cookie，等同于localStorage的生命周期
+      	2. 会话cookie，等同于sessionStorage的生命周期
+
+### 11. 2 session
+
+	1. 服务器端生成
+ 	2. 保存在服务端
+ 	3. 可以cookie作为载体达到浏览器端
+
+### 11.3 localStorage
+
+1. H5的新特新，用于本地存储
+2. 存储量： 5M
+3. 生命周期: 永久存储，保存在硬盘
+
+### 11.4 sessionStorage
+
+	1. H5的新特新，用于本地存储
+ 	2. 存储量: 5M
+ 	3. 生命周期: 会话存储，保存在运行的内存中，浏览器关闭，内存释放
 
 
 

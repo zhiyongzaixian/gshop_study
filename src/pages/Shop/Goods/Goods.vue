@@ -201,10 +201,23 @@
 
 <script>
   import BScroll from 'better-scroll'
+  import {mapState} from 'vuex'
   export default {
-    mounted(){
+    async mounted(){
       new BScroll('.leftContainer', {
         scrollY: true, // 设置纵向滑动
+      })
+      new BScroll('.rightContainer', {
+        scrollY: true, // 设置纵向滑动
+      })
+
+      // 测试mock接口
+      // let result = await this.$API.getShopDatas()
+      // console.log(result)
+    },
+    computed: {
+      ...mapState({
+        goods: state => state.shop.shopDatas.goods
       })
     }
   }
