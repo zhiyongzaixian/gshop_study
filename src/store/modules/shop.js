@@ -7,6 +7,7 @@ import {SAVE_SHOPDATAS, ADD_FOOD_COUNT, DEL_FOOD_COUNT} from '../mutation-type'
 
 const state = {
   shopDatas: {}, // 初始化商家信息数据
+  cartShops: [], // 购物车的数据
 }
 
 
@@ -30,18 +31,30 @@ const mutations = {
       // 非响应式属性，数据发生变化，页面不会更新
       // food.count = 1
       Vue.set(food, 'count', 1)
+      // 添加至购物车
+      state.cartShops.push(food)
     }
   },
   [DEL_FOOD_COUNT](state, {food}){
     if(food.count){
       food.count--
+      if(!!!food.count){
+        // 从购物车删除商品
+        state.cartShops.splice(state.cartShops.indexOf(food), 1)
+      }
     }
   }
 }
 
 
 const getters = {
-
+  // cartShops(state){
+  //   console.log('xxx');
+  //    return  state.shopDatas.goods.reduce((pre, good) => {
+  //      pre.push(...good.foods.filter(food => food.count))
+  //      return pre
+  //    }, [])
+  // }
 }
 
 

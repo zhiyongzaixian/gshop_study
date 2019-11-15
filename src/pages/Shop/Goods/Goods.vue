@@ -38,6 +38,7 @@
       </ul>
 
     </div>
+    <ShopCart />
   </div>
 </template>
 
@@ -45,7 +46,11 @@
   import BScroll from 'better-scroll'
   import Vue from 'vue'
   import {mapState} from 'vuex'
+  import ShopCart from '../../../components/ShopCart/ShopCart'
   export default {
+    components: {
+      ShopCart
+    },
     data(){
       return {
         scrollY: 0, // 记录右侧滑动内容滑动的距离
@@ -102,7 +107,7 @@
           // probeType: 1, // 非实时
           probeType: 2, // 实时
           // probeType: 3, // 实时/惯性滑动
-          click: true, // 允许点击
+          // click: true, // 允许点击
         })
 
         this.rightScroll.on('scroll', ({x, y}) => {
@@ -151,7 +156,7 @@
     /*position absolute*/
     /*bottom 0*/
     /*top 224px*/
-    height calc(100vh - 224px)  /*vh, vw 1vh == 1%视口高度*/
+    height calc(100vh - 272px)  /*vh, vw 1vh == 1%视口高度*/
     .leftContainer
       width 80px
       background #f3f5f7
