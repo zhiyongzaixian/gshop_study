@@ -55,6 +55,16 @@ const getters = {
   //      return pre
   //    }, [])
   // }
+  totalCount(state){
+    return state.cartShops.reduce((pre, food) => {
+      return pre += food.count
+    }, 0)
+  },
+  totalPrice(state){
+    return state.cartShops.reduce((pre, food) => {
+      return pre += food.count * food.price
+    }, 0)
+  }
 }
 
 

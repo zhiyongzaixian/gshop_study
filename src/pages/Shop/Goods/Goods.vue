@@ -65,6 +65,7 @@
       // 测试mock接口
       // let result = await this.$API.getShopDatas()
       // console.log(result)
+      // 保证切换至评价，商家的时候再切换回来BScroll还能正常使用
       if(this.goods){
         this._initScroll()
         this._initTops()

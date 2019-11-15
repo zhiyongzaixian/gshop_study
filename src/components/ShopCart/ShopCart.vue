@@ -4,17 +4,17 @@
       <div class="content2">
         <div class="content-left">
           <div class="logo-wrapper">
-            <div class="logo highlight">
-              <i class="iconfont icon-gouwuche1 highlight"></i>
+            <div class="logo " :class="{highlight: totalCount}">
+              <i class="iconfont icon-gouwuche1 " :class="{highlight: totalCount}"></i>
             </div>
-            <div class="num">1</div>
+            <div class="num" v-show="totalCount">{{totalCount}}</div>
           </div>
-          <div class="price highlight">￥10</div>
-          <div class="desc">另需配送费￥4元</div>
+          <div class="price " :class="{highlight: totalCount}">￥{{totalPrice}}</div>
+          <div class="desc">另需配送费￥{{info.deliveryPrice}}元</div>
         </div>
         <div class="content-right">
-          <div class="pay not-enough">
-            还差￥10元起送
+          <div class="pay " :class="payClass">
+            {{payText}}
           </div>
         </div>
       </div>
@@ -46,7 +46,28 @@
 </template>
 
 <script>
-  export default {}
+  import {mapGetters, mapState} from 'vuex'
+  export default {
+    computed:{
+      ...mapGetters(['totalCount', 'totalPrice']),
+      ...mapState({
+        info: state => state.shop.shopDatas.info
+      }),
+      payClass(){
+        return this.totalPrice > this.info.minPrice?'enough':'not-enough'
+      },
+      payText(){
+        let {totalPrice, info} = this
+        if(totalPrice === 0){
+          return `${info.minPrice}起送`
+        }else if(totalPrice>0 && totalPrice < info.minPrice){
+          return `还差${info.minPrice - totalPrice}配送`
+        }else {
+          return '去结算'
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>

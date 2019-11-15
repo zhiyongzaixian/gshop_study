@@ -4,7 +4,7 @@
       <div class="iconfont icon-jianhao " v-show="food.count" @click="updateFoodCount(false)"></div>
     </transition>
     <div class="cart-count" v-show="food.count">{{food.count}}</div>
-    <div class="iconfont icon-add" @click="updateFoodCount(true)"></div>
+    <div class="iconfont icon-add" @click="updateFoodCount(true, $event)"></div>
   </div>
 
 </template>
@@ -19,8 +19,9 @@
       }
     },
     methods:{
-      updateFoodCount(isAdd){
-        console.log('点击了');
+      updateFoodCount(isAdd, event){
+        console.log(event.target);
+        console.log(event);
         if(isAdd){
           // 增加
           this.$store.commit(ADD_FOOD_COUNT, {food: this.food})
