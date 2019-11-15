@@ -3,7 +3,7 @@ import {
   getShopDatas
 } from '../../api'
 
-import {SAVE_SHOPDATAS, ADD_FOOD_COUNT, DEL_FOOD_COUNT} from '../mutation-type'
+import {SAVE_SHOPDATAS, ADD_FOOD_COUNT, DEL_FOOD_COUNT, CLEAR_CARTSHOPS} from '../mutation-type'
 
 const state = {
   shopDatas: {}, // 初始化商家信息数据
@@ -43,6 +43,11 @@ const mutations = {
         state.cartShops.splice(state.cartShops.indexOf(food), 1)
       }
     }
+  },
+  [CLEAR_CARTSHOPS](state){
+    state.cartShops.forEach(food => food.count = 0)
+    state.cartShops = []
+    
   }
 }
 
