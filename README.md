@@ -255,6 +255,18 @@ module.exports = {
       2. 刷新页面重新初始化整个应用，重新分配内存空间，重新初始化store对象
    2. 解决方案一： 
       1. 重新发送ajax请求获取之前丢失的数据
+      2. 缺点： 每次刷新都得发送请求，浪费带宽
+   3. 解决方案二：
+      1. 在Vuex中更新state数据的同时同步更新sessionStorage中的数据
+      2. 缺点: 每次数据变化都会更新sessionStorage，性能较差
+   4. 解决方案三: 
+      1. 利用页面的beforeunload(页面即将刷新之前)事件将数据存储到sessionStorage中
+      2. 组件再次加载的时候从sessionStorage中读取并更新Vuex中的数据
+      3. 缺点： 搞不定路由跳转的情况
+   5. 解决方案四： 
+      1. 利用组件的生命周期函数beforeDestory()将数据存储到sessionStorage中
+      2. 刷新页面 || 或者切换路由组件的时候，当前的路由组件会销毁，就会beforeDestory
+      3. 组件再次加载的时候从sessionStorage中读取并更新Vuex中的数据
 
 ## 11. localStorage & sessionStorage&cookie& session
 
