@@ -38,7 +38,7 @@
         </div>
       </transition>
     </div>
-    <div class="list-mask" @click="this.isShowCartShop = false" v-show="isShowCartShop" ></div>
+    <div class="list-mask" @click="isShowCartShop = false" v-show="isShowCartShop" ></div>
   </div>
 
 </template>
@@ -47,6 +47,7 @@
   import {mapGetters, mapState} from 'vuex'
   import {CLEAR_CARTSHOPS} from '../../store/mutation-type'
   import {MessageBox} from 'mint-ui'
+  import BScroll from 'better-scroll'
   export default {
     data(){
       return {
@@ -94,7 +95,15 @@
     },
     watch: {
       totalCount(newValue){
-        !!!newValue && (this.isShowCartShop = false)
+        if(!this.BScroll){
+          this.BScroll = new BScroll('.list-content', {
+            // click: true,
+            scrollY: true
+          })
+        }else {
+          this.BScroll.refresh()
+        }
+        !newValue && (this.isShowCartShop = false)
       }
     }
   }

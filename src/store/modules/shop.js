@@ -3,7 +3,7 @@ import {
   getShopDatas
 } from '../../api'
 
-import {SAVE_SHOPDATAS, ADD_FOOD_COUNT, DEL_FOOD_COUNT, CLEAR_CARTSHOPS} from '../mutation-type'
+import {SAVE_SHOPDATAS, ADD_FOOD_COUNT, DEL_FOOD_COUNT, CLEAR_CARTSHOPS, SAVE_CARTSHOPS} from '../mutation-type'
 
 const state = {
   shopDatas: {}, // 初始化商家信息数据
@@ -23,6 +23,12 @@ const actions = {
 const mutations = {
   [SAVE_SHOPDATAS](state, {shopDatas}){
     state.shopDatas = shopDatas
+    // 我们在保存数据值vuex的同时将数据同步保存至sessionStorage，
+    // 问题： 数据每改变一次，保存数据的动作就发生一次，页面刷新之前的动作都是多余的，性能差
+    // sessionStorage.setItem('shopDatas', JSON.stringify(shopDatas))
+  },
+  [SAVE_CARTSHOPS](state, {cartShops}){
+    state.cartShops = cartShops
   },
   [ADD_FOOD_COUNT](state, {food}){
     if(food.count){ // count > 0
@@ -38,7 +44,7 @@ const mutations = {
   [DEL_FOOD_COUNT](state, {food}){
     if(food.count){
       food.count--
-      if(!!!food.count){
+      if(!food.count){
         // 从购物车删除商品
         state.cartShops.splice(state.cartShops.indexOf(food), 1)
       }

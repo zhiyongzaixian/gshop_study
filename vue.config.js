@@ -15,8 +15,12 @@ function resolve (dir) {
 
 
 module.exports = {
-  runtimeCompiler: true, // 运行时包含编译器的版本
-  lintOnSave: false, // 关闭ESLint编译
+  // 运行时包含编译器的版本
+  runtimeCompiler: true,
+
+  // 关闭ESLint编译
+  lintOnSave: false,
+
   configureWebpack : {
     resolve: {
       extensions: ['.js', '.vue', '.json'],
@@ -27,6 +31,7 @@ module.exports = {
       }
     },
   },
+
   css: { // 添加postcss配置
     loaderOptions: {
       postcss: {
@@ -36,6 +41,7 @@ module.exports = {
       }
     }
   },
+
   devServer: {
     proxy: {
       '/api': {
@@ -47,4 +53,13 @@ module.exports = {
       }
     }
   },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
+  }
 }

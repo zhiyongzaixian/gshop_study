@@ -70,7 +70,7 @@
     },
     methods: {
       _chunk(target, size){
-        if(!Array.isArray(target) || size <=0 || !!!target.length){
+        if(!Array.isArray(target) || size <=0 || !target.length){
           return target
         }
         let arr = [...target]
