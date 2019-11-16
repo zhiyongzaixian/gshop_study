@@ -168,6 +168,22 @@ module.exports = {
            	<i class="iconfont icon-sousuo"></i>
            </span>
          ```
+      
+   3. 后备内容
+   
+      1. 在slot中声明默认值
+      2. 如果向当前的插槽传入就使用传入的值
+      3. 如果没有传入内容就使用后备内容，插槽的默认值，知识点关联(形参的默认值，props属性的默认值)
+   
+   4. 作用域插槽
+   
+      1. 需求： 在组件的外部想要访问组件内部的数据
+      2. 实现:
+         1. 向slot标签传递数据，通过标签属性的形式，将数据导入slot的props对象中
+         2. 在外部的template标签上使用v-slot声明接收slot的props数据
+
+
+
 
 
 ## 6. Vuex
@@ -265,8 +281,11 @@ module.exports = {
       3. 缺点： 搞不定路由跳转的情况
    5. 解决方案四： 
       1. 利用组件的生命周期函数beforeDestory()将数据存储到sessionStorage中
-      2. 刷新页面 || 或者切换路由组件的时候，当前的路由组件会销毁，就会beforeDestory
+      2. 者切换路由组件的时候，当前的路由组件会销毁，就会beforeDestory
       3. 组件再次加载的时候从sessionStorage中读取并更新Vuex中的数据
+      4. 缺点： 页面刷新的时候当前的生命周期函数不会执行
+   6. 完整的解决方案：
+      1. beforeunload(页面刷新) + beforeDestory（组件销毁）
 
 ## 11. localStorage & sessionStorage&cookie& session
 
@@ -298,19 +317,95 @@ module.exports = {
 
 ### 11.4 sessionStorage
 
-	1. H5的新特新，用于本地存储
+1. H5的新特新，用于本地存储
+
  	2. 存储量: 5M
- 	3. 生命周期: 会话存储，保存在运行的内存中，浏览器关闭，内存释放
+   	3. 生命周期: 会话存储，保存在运行的内存中，浏览器关闭，内存释放
 
+## 12. mixins
 
+1. 核心思想
+   1. 让一个混入供过个组件复用
+   2. 同时和组件相互独立
+2. 分类
+   1. 局部混入(推荐使用)
+      1. 实例选项中： mixins: [混合1， 混合2]
+   2. 全局混入
+3. 混合内容
+   1. 同组件实例对象一样定义数据，方法，计算属性。。。
+4. 使用混合的好处
+   1. 选项合并，混合中定义的内容会合并到组件的实例对象身上
+   2. 注意： 当混合和实例身上有共同的属性的时候，实例自身属性的优先级高
 
+## 13. 组件懒加载
 
+1. 路由组件懒加载
 
+   1. ```
+      let Msite  = () => import('../pages/Msite/Msite')
+      let Search  = () => import('../pages/Search/Search')
+      let Order  = () => import('../pages/Order/Order')
+      let Profile  = () => import('../pages/Profile/Profile')
+      {
+          path: '/msite',
+          component: Msite,
+          meta: {
+            isShowFooterGuide: true
+          }
+        },
+        {
+          path: '/search',
+          component: Search,
+          meta: {
+            isShowFooterGuide: true
+          }
+        },
+        {
+          path: '/order',
+          component: Order,
+          meta: { // 传多个键值对，隐式传参，缺点： 不能动态传参
+            isShowFooterGuide: true
+          }
+        },
+        {
+          path: '/profile',
+          component: Profile,
+          meta: {
+            isShowFooterGuide: true
+          }
+        },
+      ```
 
+      
 
+2. 组件懒加载
 
+   ```
+   import FirstView from './components/FirstView'
+   import Profile from './components/Profile'
+   export default {
+     name: 'app',
+     components: {
+       FirstView,
+       Profile,
+       AsyncComponentTest: () => import('./components/AsyncComponentTest') // 组件懒加载 异步组件
+     },
+     data(){
+       return {
+         currentTabComponent: 'FirstView'
+       }
+     }
+   }
+   ```
 
+3. 核心思想
 
+   1. 按需加载，使用的时候才去加载对应的js文件
+   2. 代码切割
+
+4. 好处
+
+   1. 提高首屏渲染效率，缩短首屏渲染的时间，提高用户体验
 
 
 

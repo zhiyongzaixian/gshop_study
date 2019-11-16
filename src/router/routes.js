@@ -1,7 +1,17 @@
-import Msite from '../pages/Msite/Msite'
-import Search from '../pages/Search/Search'
-import Order from '../pages/Order/Order'
-import Profile from '../pages/Profile/Profile'
+// import Msite from '../pages/Msite/Msite'
+// import Search from '../pages/Search/Search'
+// import Order from '../pages/Order/Order'
+// import Profile from '../pages/Profile/Profile'
+
+let Msite  = () => import('../pages/Msite/Msite')
+let Search  = () => import('../pages/Search/Search')
+let Order  = () => import('../pages/Order/Order')
+let Profile  = () => import('../pages/Profile/Profile')
+
+
+
+
+
 import Login from '../pages/Login/Login'
 import Shop from '../pages/Shop/Shop'
 import Goods from '../pages/Shop/Goods/Goods'

@@ -47,15 +47,13 @@
       }
       // beforeunload 页面刷新之前调用
       window.addEventListener('beforeunload', () => {
-        // sessionStorage.setItem('shopDatas', JSON.stringify(this.shopDatas))
+        sessionStorage.setItem('shopDatas', JSON.stringify(this.shopDatas))
         // 分别保存的话导致shopDatas和cartShops是两个独立的对象，互相没有引用关联，
         // sessionStorage.setItem('cartShops', JSON.stringify(this.cartShops))
       })
     },
     beforeDestroy(){
       // 组件销毁之前将数据保存至sessionStorage，好处：只保存一次， 缺点： 后退在进来当前组件的时候原本的数据没有丢失，但是也保存了
-
-
       // 用于解决两个问题： 1. 页面刷新， 2. 通过路由跳转进行页面后退
       sessionStorage.setItem('shopDatas', JSON.stringify(this.shopDatas))
     }
